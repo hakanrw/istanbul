@@ -17,9 +17,6 @@ RES_PATH := res
 
 # compile macros
 TARGET_NAME := istanbul.com # FILL: target name
-ifeq ($(OS),Windows_NT)
-	TARGET_NAME := $(addsuffix .exe,$(TARGET_NAME))
-endif
 TARGET := $(BIN_PATH)/$(TARGET_NAME)
 TARGET_DEBUG := $(DBG_PATH)/$(TARGET_NAME)
 
