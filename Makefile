@@ -18,7 +18,7 @@ DBG_PATH := debug
 RES_PATH := res
 
 # compile macros
-TARGET_NAME := istanbul.com # FILL: target name
+TARGET_NAME := istanbul.com
 TARGET := $(BIN_PATH)/$(TARGET_NAME)
 TARGET_DEBUG := $(DBG_PATH)/$(TARGET_NAME)
 
@@ -30,11 +30,23 @@ OBJ := $(addprefix $(OBJ_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
 OBJ_DEBUG := $(addprefix $(DBG_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
 OBJ_RES := $(addprefix $(OBJ_PATH)/, $(addsuffix .zip.o, ${RES}))
 
+OBJ_ARM := $(foreach obj,$(OBJ),$(dir ${obj}).aarch64/$(notdir ${obj}))
+OBJ_DEBUG_ARM := $(foreach obj,$(OBJ_DEBUG),$(dir ${obj}).aarch64/$(notdir ${obj}))
+OBJ_RES_ARM := $(foreach obj,$(OBJ_RES),$(dir ${obj}).aarch64/$(notdir ${obj}))
 
 # clean files list
 DISTCLEAN_LIST := $(OBJ) \
-                  $(OBJ_DEBUG)
+                  $(OBJ_DEBUG) \
+                  $(OBJ_RES) \
+                  $(OBJ_ARM) \
+                  $(OBJ_DEBUG_ARM) \
+                  $(OBJ_RES_ARM) \
+
 CLEAN_LIST := $(TARGET) \
+                          $(TARGET).dbg \
+                          $(basename $(TARGET)).aarch64.elf \
+                          $(TARGET_DEBUG).dbg \
+                          $(basename $(TARGET_DEBUG)).aarch64.elf \
 			  $(TARGET_DEBUG) \
 			  $(DISTCLEAN_LIST)
 
