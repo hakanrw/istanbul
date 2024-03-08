@@ -1,0 +1,6 @@
+This Cosmopolitan Libc project template is licensed under the MIT License. 
+Please refer to the LICENSE file for more details.
+
+Copyright (c) 2024, Hakan Candar <hakan@candar.dev>
+Copyright (c) 2017-2021, Zixuan Wang <zxwang42@gmail.com> and Collaborators
+

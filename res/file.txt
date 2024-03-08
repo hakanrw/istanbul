@@ -1,0 +1,12 @@
+Welcome to Istanbul!
+
+This is a template for Cosmopolitan Libc projects, the Makefile includes the 
+necessary  targets to build resource files and source code into a single APE 
+executable.
+
+Files that are put into the `res` folder will be embedded in the output
+executable. You can access embedded files like any normal file, please
+check src/main.c for an example.
+
+You can simply build the project with `make`. 
+You can run the project with `make run`. 

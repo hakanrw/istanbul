@@ -1,0 +1,8 @@
+Huge thanks to:
+
+Zixuan Wang, for creating the initial Makefile. 
+I built upon your foundation.
+
+Justine Tunney, for creating Cosmopolitan Libc. 
+The idea of this project would not have existed 
+without your magnificent work.

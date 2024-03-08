@@ -8,6 +8,8 @@ CXXFLAGS := # FILL: compile flags
 DBGFLAGS := -g
 COBJFLAGS := $(CFLAGS) -c
 
+ZIPOBJ := zipobj
+
 # path macros
 BIN_PATH := bin
 OBJ_PATH := obj
@@ -21,11 +23,13 @@ TARGET := $(BIN_PATH)/$(TARGET_NAME)
 TARGET_DEBUG := $(DBG_PATH)/$(TARGET_NAME)
 
 # src files & obj files
+RES := $(shell find $(RES_PATH) -type f)
 SRC := $(foreach x, $(SRC_PATH), $(wildcard $(addprefix $(x)/*,.c*)))
+
 OBJ := $(addprefix $(OBJ_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
 OBJ_DEBUG := $(addprefix $(DBG_PATH)/, $(addsuffix .o, $(notdir $(basename $(SRC)))))
+OBJ_RES := $(addprefix $(OBJ_PATH)/, $(addsuffix .zip.o, ${RES}))
 
-RES := $(foreach x, $(RES_PATH), $(wildcard $(addprefix $(x)/*,*)))
 
 # clean files list
 DISTCLEAN_LIST := $(OBJ) \
@@ -38,9 +42,8 @@ CLEAN_LIST := $(TARGET) \
 default: makedir all
 
 # non-phony targets
-$(TARGET): $(OBJ) $(RES)
-	$(CC) -o $@ $(OBJ) $(CFLAGS)
-	cd $(RES_PATH); zip -r ../$@ .
+$(TARGET): $(OBJ) $(OBJ_RES)
+	$(CC) $(CFLAGS) $(OBJ) $(OBJ_RES) -o $@
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c*
 	$(CC) $(COBJFLAGS) -o $@ $<
@@ -49,7 +52,14 @@ $(DBG_PATH)/%.o: $(SRC_PATH)/%.c*
 	$(CC) $(COBJFLAGS) $(DBGFLAGS) -o $@ $<
 
 $(TARGET_DEBUG): $(OBJ_DEBUG)
-	$(CC) $(CFLAGS) $(DBGFLAGS) $(OBJ_DEBUG) -o $@
+	$(CC) $(CFLAGS) $(DBGFLAGS) $(OBJ_DEBUG) $(OBJ_RES) -o $@
+
+$(OBJ_PATH)/res/%.zip.o: $(RES_PATH)/%
+	@mkdir -p $(sort $(dir $@))
+	@mkdir -p $(sort $(dir $@).aarch64/)
+
+	$(ZIPOBJ) -C 1 -o $@ $<
+	$(ZIPOBJ) -C 1 -a aarch64 -o $(dir $@).aarch64/$(notdir $@) $<
 
 # phony rules
 .PHONY: makedir
