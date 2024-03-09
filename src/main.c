@@ -10,6 +10,7 @@ int main() {
 	if (IsOpenbsd()) printf("OS: OpenBSD\n");
 	if (IsNetbsd() ) printf("OS: NetBSD\n");
 	if (IsMetal()  ) printf("OS: N/A - Bare Metal\n");
+	printf("Architecture: %s\n", _ARCH_NAME);
 	printf("\n");
 
 	FILE* file = fopen("/zip/file.txt", "r");
